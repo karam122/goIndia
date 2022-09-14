@@ -24,7 +24,7 @@ const JobVacancyList = () => {
   const [message, setMessage] = useState();
 
   // Post Job Application
-  const application_post_url = "http://localhost:5246/Application";
+  const application_post_url = "http://localhost:5000/Application";
   let history = useHistory();
   const handleApplication = () => {
     axios({
@@ -43,7 +43,7 @@ const JobVacancyList = () => {
 
   //Jobs Fetching
 
-  const jobs_get_url = "http://localhost:5246/api/Job";
+  const jobs_get_url = "http://localhost:5000/api/Job";
 
   useEffect(() => {
     axios({

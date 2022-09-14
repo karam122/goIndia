@@ -10,15 +10,20 @@ import { getEmployerContracts } from "../../apis/contract";
 
 const EmployerOffers = () => {
   const [myContracts, setMyContracts] = useState();
-  const [applicants, setApplicatns] = useState();
-  const [jobs, setJobs] = useState();
+  const [isSpinnerLoading, setIsSpinnerLoading] = useState(true);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     getEmployerContracts(1).then((resp) => {
-      console.log("My Contracts are : ", resp);
-      setMyContracts(resp.data.contracts);
-      setApplicatns(resp.data.users);
-      setJobs(resp.data.jobs);
+      //console.log("My Contracts are : ", resp);
+      setIsSpinnerLoading(false);
+      if (resp.status == 200) {
+        if (resp.data.resultStatus == 200) {
+          setMyContracts(resp.data.data);
+        } else {
+          setMessage(resp.data.message);
+        }
+      }
     });
   }, []);
 
@@ -37,7 +42,9 @@ const EmployerOffers = () => {
           Your Contracts are Listed Belows
         </h1>
       </div>
-
+      <div style={{ margin: "auto", width: "25%", marginTop: "100px" }}>
+        <TheTailSpinner isLoading={isSpinnerLoading} width={160} height={160} />
+      </div>
       <div style={{ margin: "20px 0 30px 0" }}>
         {myContracts ? (
           <>
@@ -68,49 +75,23 @@ const EmployerOffers = () => {
                     </Col> */}
 
                         <Col md={3}>
-                          {jobs
-                            ?.filter((j) => j.id == contract.jobId)
-                            .map((item) => {
-                              return (
-                                <>
-                                  <h5>{item.jobTitle}</h5>
-                                  <span>
-                                    {applicants
-                                      ?.filter(
-                                        (a) => a.id == contract.employeeId
-                                      )
-                                      .map((usr) => {
-                                        return (
-                                          <>
-                                            <p>
-                                              Applicant :{" "}
-                                              <Link
-                                                to={{
-                                                  pathname: "/candidatedetails",
-                                                  state: { details: usr },
-                                                }}
-                                              >
-                                                {usr.firstName} {usr.lastName}
-                                              </Link>
-                                            </p>
-                                          </>
-                                        );
-                                      })}
-                                  </span>
-                                </>
-                              );
-                            })}
+                          <h5>{contract.jobTitle}</h5>
+                          <span>Employee : {contract.hiredBy}</span>
                         </Col>
 
-                        <Col md={2}>Type: {contract.type}</Col>
                         <Col md={2}>
-                          Hourly Rate : {contract.hourlyRate} $/h
+                          <h6>Type:</h6> {contract.jobType}
+                        </Col>
+                        <Col md={2}>
+                          <h6>Hourly Rate :</h6> {contract.hourlyRate} $/h
                         </Col>
                         <Col md={3}>
-                          {" "}
-                          {contract.type} Hours : {contract.hoursperWeek}
+                          <h6>Job Location :</h6> {contract.location}
+                          {/* {contract.type} Hours : {contract.hoursperWeek} */}
                         </Col>
-                        <Col md={2}>Status: {contract.status}</Col>
+                        <Col md={2}>
+                          <h6>Status:</h6> {contract.status}
+                        </Col>
                       </Row>
                     </div>
                   </div>
@@ -121,7 +102,7 @@ const EmployerOffers = () => {
         ) : (
           <div style={{ margin: "auto", width: "300px" }}>
             <div style={{ margin: "100px 0 100px 0" }}>
-              <TheTailSpinner isLoading={true} width={100} heigth={100} />
+              <h6>{message}</h6>
             </div>
           </div>
         )}

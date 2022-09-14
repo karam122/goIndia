@@ -1,0 +1,17 @@
+headers: {
+      Authorization: "bearer " + localStorage.getItem("AccessToken"),
+    }
+
+then((resp) => {
+      console.log("Response is :", resp);
+      setIsSpinnerLoading(false);
+      if (resp.status == 200) {
+        if (resp.data.resultStatus == 200) {
+          setMyContracts(resp.data.contracts);
+          setApplicatns(resp.data.users);
+          setJobs(resp.data.jobs);
+        } else {
+          setMessage(resp.data.message);
+        }
+      }
+    });

@@ -6,14 +6,23 @@ import Section from "../../../components/Section";
 import { TheTailSpinner } from "../../../components/Spinners";
 const OnGoingEmployeeContracts = () => {
   const [myContracts, setMyContracts] = useState();
+  const [isSpinnerLoadig, setIsSpinnerLoading] = useState(true);
+  const [message, setMessage] = useState("");
   const [applicants, setApplicatns] = useState();
   const [jobs, setJobs] = useState();
   useEffect(() => {
     getOngoingEmployeeContracts(1).then((resp) => {
-      console.log("Response is : ", resp);
-      setMyContracts(resp.data.contracts);
-      setApplicatns(resp.data.users);
-      setJobs(resp.data.jobs);
+      //console.log("Response is : ", resp);
+      setIsSpinnerLoading(false);
+      if (resp.status == 200) {
+        if (resp.data.resultStatus == 200) {
+          setMyContracts(resp.data.data);
+          // setApplicatns(resp.data.users);
+          // setJobs(resp.data.jobs);
+        } else {
+          setMessage(resp.data.message);
+        }
+      }
     });
   }, []);
 
@@ -32,6 +41,10 @@ const OnGoingEmployeeContracts = () => {
         </h1>
       </div>
 
+      <div style={{ margin: "auto", width: "25%", marginTop: "100px" }}>
+        <TheTailSpinner isLoading={isSpinnerLoadig} width={200} height={200} />
+      </div>
+
       <div style={{ margin: "20px 0 30px 0" }}>
         {myContracts ? (
           <>
@@ -47,7 +60,9 @@ const OnGoingEmployeeContracts = () => {
                     <div className="p-4">
                       <Row className="align-items-center">
                         <Col md={4}>
-                          {jobs
+                          <h5>{contract.jobTitle}</h5>
+                          <span>Employer : {contract.hiredBy}</span>
+                          {/* {jobs
                             ?.filter((j) => j.id == contract.jobId)
                             .map((item) => {
                               return (
@@ -76,7 +91,7 @@ const OnGoingEmployeeContracts = () => {
                                   </span>
                                 </>
                               );
-                            })}
+                            })} */}
                         </Col>
                         <Col md={2}>
                           {contract.hourlyRate === 0
@@ -84,7 +99,7 @@ const OnGoingEmployeeContracts = () => {
                             : contract.hourlyRate}{" "}
                           $ / hour
                         </Col>
-                        <Col md={2}>Type: {contract.type}</Col>
+                        <Col md={2}>Type: {contract.jobType}</Col>
                         <Col md={2}>Status: {contract.status}</Col>
                       </Row>
                     </div>
@@ -96,7 +111,7 @@ const OnGoingEmployeeContracts = () => {
         ) : (
           <div style={{ margin: "auto", width: "300px" }}>
             <div style={{ margin: "100px 0 100px 0" }}>
-              <TheTailSpinner isLoading={true} width={100} heigth={100} />
+              <h5>{message}</h5>
             </div>
           </div>
         )}

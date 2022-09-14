@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Col, Input, Label, Row, Modal, ModalBody } from "reactstrap";
+import { getJobs, ApplyForJob } from "../../../apis/Job";
 import axios from "axios";
 
 //Images Import
@@ -17,44 +18,48 @@ const JobVacancyList = () => {
   const [modal, setModal] = useState(false);
   const openModal = () => setModal(!modal);
   const [data, setData] = useState();
-
+  const [haveJobs, setHaveJobs] = useState(false);
+  const [isSpinnerLoadig, setIsSpinnerLoading] = useState(true);
   // Modal Fields
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [message, setMessage] = useState();
 
-  // Post Job Application
-  const application_post_url = "http://localhost:5246/Application";
   let history = useHistory();
   const handleApplication = () => {
-    axios({
-      method: "post",
-      url: application_post_url,
-      data: {
-        name: name,
-        email: email,
-        message: message,
-      },
-    });
+    // axios({
+    //   method: "post",
+    //   url: application_post_url,
+    //   data: {
+    //     name: name,
+    //     email: email,
+    //     message: message,
+    //   },
+    // });
 
     alert("Successfully Applied for Job");
     history.push("/joblist");
   };
 
-  //Jobs Fetching
-
-  const jobs_get_url = "http://localhost:5246/api/Job";
-
   useEffect(() => {
-    axios({
-      method: "get",
-      url: jobs_get_url,
-    }).then((response) => setData(response.data));
+    getJobs().then((resp) => {
+      console.log("Got Response Again", resp);
+      if (resp.data.resultStatus == 200) {
+        setIsSpinnerLoading(false);
+        setHaveJobs(true);
+        setData(resp.data.data);
+      } else {
+        setIsSpinnerLoading(false);
+        setHaveJobs(false);
+        //alert(resp.data.message);
+      }
+    });
   });
 
   return (
     <React.Fragment>
       <div>
+        <h1 style={{ margin: "auto", width: "60%" }}>I am Job Vacancy List</h1>
         {data?.map((jobVacancyListDetails, key) => (
           <div
             key={key}

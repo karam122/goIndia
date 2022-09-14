@@ -19,6 +19,7 @@ import { getCurrentUserData } from "../../../apis/User";
 import { TheTailSpinner } from "../../../components/Spinners";
 import { successToast } from "../../../components/Toasts";
 import { ToastContainer } from "react-toastify";
+import Pagination from "../../../Features/Components/Pagination";
 import "react-toastify/dist/ReactToastify.css";
 
 const JobList = (props) => {
@@ -40,7 +41,6 @@ const JobList = (props) => {
                 <JobSearchOptions />
                 <Popular />
                 <Jobs />
-                <JobVacancyList />
               </div>
             </Col>
             <Sidebar />
@@ -59,6 +59,11 @@ const Jobs = (props) => {
   const [proposal, setProposal] = useState("");
   const [hourlyRate, setHourlyRate] = useState(0);
   const [jobs, setJobs] = useState();
+  const [haveJobs, setHaveJobs] = useState(false);
+  const [isSpinnerLoadig, setIsSpinnerLoading] = useState(true);
+  const [message, setMessage] = useState("");
+  const [totalPages, setTotalPages] = useState(0);
+  const [pageNo, setPageNo] = useState(1);
   const [jobid, setJobId] = useState();
   const [user, setUser] = useState();
 
@@ -66,9 +71,22 @@ const Jobs = (props) => {
 
   useEffect(() => {
     getCurrentUserData(Id).then((resp) => {
+      console.log("Current User is : ", resp.data);
       setUser(resp.data);
     });
-    getJobs(setJobs);
+    getJobs(pageNo).then((resp) => {
+      console.log("Got Response", resp);
+      if (resp.data.resultStatus == 200) {
+        setIsSpinnerLoading(false);
+        setHaveJobs(true);
+        setJobs(resp.data.data);
+        setTotalPages(resp.data.totalPages);
+      } else {
+        setIsSpinnerLoading(false);
+        setMessage(resp.data.message);
+        //alert(resp.data.message);
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -124,84 +142,110 @@ const Jobs = (props) => {
         <br />
         <br />
       </div>
-      {jobs ? (
-        <div>
+      <div style={{ margin: "auto", width: "25%", marginTop: "100px" }}>
+        <TheTailSpinner isLoading={isSpinnerLoadig} width={200} height={200} />
+      </div>
+      {haveJobs ? (
+        <>
           <div>
-            {jobs?.map((job, key) => (
-              <div key={key} className="job-box card mt-4">
-                <div className="p-4">
-                  <Row className="align-items-center">
-                    {/* <Col md={2}>
-                    <div className="text-center mb-4 mb-md-0">
-                      <Link to="/company-details">
-                        <img
-                          src={jobImage1}
-                          alt=""
-                          className="img-fluid rounded-3"
-                        />
-                      </Link>
-                    </div>
-                  </Col> */}
-
-                    <Col md={3}>
-                      <div className="mb-2 mb-md-0">
-                        <h5 className="fs-18 mb-1">
-                          <Link
-                            to={{
-                              pathname: "/jobdetails",
-                              state: { jobdetail: job },
-                            }}
-                            className="text-dark"
-                          >
-                            {job.jobTitle}
-                          </Link>
-                        </h5>
-                        {/* <p className="text-muted fs-14 mb-0">Img</p> */}
-                      </div>
-                    </Col>
-
-                    <Col md={3}>
-                      <div className="d-flex mb-2">
-                        <div className="flex-shrink-0">
-                          <i className="mdi mdi-map-marker text-primary me-1"></i>
-                        </div>
-                        <p className="text-muted mb-0">{job.location}</p>
-                      </div>
-                    </Col>
-                    <Col md={3}>
-                      <div>
-                        <p className="text-muted mb-2">
-                          <span className="text-primary">$</span>
-                          {job.minRate}-{job.maxRate}/ hours
-                        </p>
-                      </div>
-                    </Col>
-                    <Col md={3}>
-                      <div>
-                        <Link
-                          to="#"
-                          onClick={() => setModalandApply(job.id)} // className="primary-link"
-                          className="btn btn-primary"
-                        >
-                          <a>Apply</a>
-                          <i className="mdi mdi-chevron-double-right"></i>
-                        </Link>
-                      </div>
-                    </Col>
-                  </Row>
-                </div>
+            <div>
+              {jobs?.map((job, key) => (
+                <div key={key} className="job-box card mt-4">
+                  <div className="p-4">
+                    <Row className="align-items-center">
+                      {/* <Col md={2}>
+              <div className="text-center mb-4 mb-md-0">
+                <Link to="/company-details">
+                  <img
+                    src={jobImage1}
+                    alt=""
+                    className="img-fluid rounded-3"
+                  />
+                </Link>
               </div>
-            ))}
-          </div>
-        </div>
-      ) : (
-        <div style={{ margin: "auto", width: "300px" }}>
-          <div style={{ margin: "100px 0 100px 0" }}>
-            <TheTailSpinner isLoading={true} width={100} heigth={100} />
-          </div>
-        </div>
-      )}
+            </Col> */}
 
+                      <Col md={3}>
+                        <div className="mb-2 mb-md-0">
+                          <h5 className="fs-18 mb-1">
+                            <Link
+                              to={{
+                                pathname: "/jobdetails",
+                                state: { jobdetail: job },
+                              }}
+                              className="text-dark"
+                            >
+                              {job.jobTitle}
+                            </Link>
+                          </h5>
+                          {/* <p className="text-muted fs-14 mb-0">Img</p> */}
+                        </div>
+                      </Col>
+
+                      <Col md={3}>
+                        <div className="d-flex mb-2">
+                          <div className="flex-shrink-0">
+                            <i className="mdi mdi-map-marker text-primary me-1"></i>
+                          </div>
+                          <p className="text-muted mb-0">{job.location}</p>
+                        </div>
+                      </Col>
+                      <Col md={3}>
+                        <div>
+                          <p className="text-muted mb-2">
+                            <span className="text-primary">$</span>
+                            {job.minRate}-{job.maxRate}/ hours
+                          </p>
+                        </div>
+                      </Col>
+                      <Col md={3}>
+                        <div>
+                          <Link
+                            to="#"
+                            onClick={() => setModalandApply(job.id)} // className="primary-link"
+                            className="btn btn-primary"
+                          >
+                            <a>Apply</a>
+                            <i className="mdi mdi-chevron-double-right"></i>
+                          </Link>
+                        </div>
+                      </Col>
+                    </Row>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          {" "}
+          <div style={{ margin: "auto", width: "300px" }}>
+            <div style={{ margin: "100px 0 100px 0" }}>
+              {/* <TheTailSpinner
+                isLoading={isSpinnerLoadig}
+                width={100}
+                heigth={100}
+              /> */}
+              <h5>{message}</h5>
+            </div>
+          </div>
+        </>
+      )}
+      <Pagination
+        totalPages={totalPages}
+        setJobs={setJobs}
+        setIsSpinnerLoading={setIsSpinnerLoading}
+        setHaveJobs={setHaveJobs}
+        setMessage={setMessage}
+      />
+      {/* {totalPages ? (
+        <>
+          <Pagination totalPages={totalPages} />;
+        </>
+      ) : (
+        <></>
+      )} */}
       <MyModal
         modal={modal}
         openModal={openModal}

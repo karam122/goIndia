@@ -9,13 +9,13 @@ import {
 import { TheTailSpinner } from "../../components/Spinners";
 const EmployeeProposals = () => {
   const [myContracts, setMyContracts] = useState();
-  const [applicants, setApplicatns] = useState();
-  const [jobs, setJobs] = useState();
+  const [isSpinnerLoadig, setIsSpinnerLoading] = useState(true);
+  const [message, setMessage] = useState("");
   const history = useHistory();
   const updateStatus = (cid) => {
     updateContractStatus(cid).then((resp) => {
-      if (resp.data == "Updated Successfully") {
-        alert(resp.data);
+      if (resp.data.resultStatus == 200) {
+        alert(resp.data.data);
         // window.parent.location = window.parent.location.href;
         setTimeout(() => {
           history.push("/ongoingemployeecontracts");
@@ -28,10 +28,15 @@ const EmployeeProposals = () => {
 
   useEffect(() => {
     getEmployeeContracts(1).then((resp) => {
-      setMyContracts(resp.data.contracts);
-      setApplicatns(resp.data.users);
-      setJobs(resp.data.jobs);
-      // console.log("Response is as Follow : ", resp);
+      console.log("Response is :", resp);
+      setIsSpinnerLoading(false);
+      if (resp.status == 200) {
+        if (resp.data.resultStatus == 200) {
+          setMyContracts(resp.data.data);
+        } else {
+          setMessage(resp.data.message);
+        }
+      }
     });
   }, []);
   return (
@@ -47,6 +52,9 @@ const EmployeeProposals = () => {
         <h1 style={{ margin: "30px 0 30px 0", width: "70%" }}>
           Your Proposals
         </h1>
+      </div>
+      <div style={{ margin: "auto", width: "25%", marginTop: "100px" }}>
+        <TheTailSpinner isLoading={isSpinnerLoadig} width={200} height={200} />
       </div>
 
       <div style={{ margin: "20px 0 30px 0" }}>
@@ -64,44 +72,11 @@ const EmployeeProposals = () => {
                     <div className="p-4">
                       <Row className="align-items-center">
                         <Col md={4}>
-                          {jobs
-                            ?.filter((j) => j.id == contract.jobId)
-                            .map((item) => {
-                              return (
-                                <>
-                                  <h5>{item.jobTitle}</h5>
-                                  <span>
-                                    {applicants
-                                      ?.filter((a) => a.id == item.userId)
-                                      .map((usr) => {
-                                        return (
-                                          <>
-                                            <p>
-                                              Employer :
-                                              <Link
-                                                to={{
-                                                  pathname: "/candidatedetails",
-                                                  state: { details: usr },
-                                                }}
-                                              >
-                                                {usr.firstName} {usr.lastName}
-                                              </Link>
-                                            </p>
-                                          </>
-                                        );
-                                      })}
-                                  </span>
-                                </>
-                              );
-                            })}
+                          <h5>{contract.jobTitle}</h5>
+                          <span>Employer : {contract.hiredBy}</span>
                         </Col>
-                        <Col md={2}>
-                          {contract.hourlyRate === 0
-                            ? contract.hoursperWeek
-                            : contract.hourlyRate}{" "}
-                          $ / hour
-                        </Col>
-                        <Col md={2}>Type: {contract.type}</Col>
+                        <Col md={2}>{contract.hourlyRate}$ / hour</Col>
+                        <Col md={2}>Type: {contract.jobType}</Col>
                         <Col md={2}>Status: {contract.status}</Col>
                         <Col md={2}>
                           {contract.status == "Completed" ? (
@@ -137,7 +112,7 @@ const EmployeeProposals = () => {
         ) : (
           <div style={{ margin: "auto", width: "300px" }}>
             <div style={{ margin: "100px 0 100px 0" }}>
-              <TheTailSpinner isLoading={true} width={100} heigth={100} />
+              <h6>{message}</h6>
             </div>
           </div>
         )}

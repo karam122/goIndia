@@ -4,6 +4,9 @@ const axios = require("axios");
 export const USER_API = axios.create({
   baseURL: `${base_url}User`,
   responseType: "json",
+  headers: {
+    Authorization: "bearer " + localStorage.getItem("AccessToken"),
+  },
 });
 
 // Signin
@@ -49,7 +52,7 @@ export const getEmployees = () => {
 };
 
 export const getCurrentUserData = async (id) => {
-  return await USER_API.get(`UserInfo/${id}`);
+  return await USER_API.get(`UserData/${id}`);
 };
 
 // Get User for Contracts
