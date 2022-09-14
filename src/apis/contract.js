@@ -4,6 +4,9 @@ const axios = require("axios");
 export const Contract_API = axios.create({
   baseURL: `${base_url}Contract`,
   responseType: "json",
+  headers: {
+    Authorization: "bearer " + localStorage.getItem("AccessToken"),
+  },
 });
 
 const Id = localStorage.getItem("UserId");

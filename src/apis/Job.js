@@ -4,11 +4,13 @@ const Id = localStorage.getItem("UserId");
 const JOB_API = axios.create({
   baseURL: `${base_url}Job`,
   responseType: "json",
+  headers: {
+    Authorization: "bearer " + localStorage.getItem("AccessToken"),
+  },
 });
 
-export const getJobs = async (setJobs) => {
-  const Jobs = await JOB_API.get("/allJobs");
-  setJobs(Jobs.data);
+export const getJobs = async (pageNo) => {
+  return await JOB_API.get(`/allJobs/${pageNo}`);
 };
 
 export const getMyJobs = async (Id) => {

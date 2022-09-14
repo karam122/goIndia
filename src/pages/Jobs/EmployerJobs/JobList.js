@@ -69,19 +69,31 @@ const Jobs = (props) => {
   // Modal Fields
   const [proposal, setProposal] = useState();
   const [myJobs, setMyJobs] = useState();
+  const [isSpinnerLoadig, setIsSpinnerLoading] = useState(true);
+  const [message, setMessage] = useState("");
   const [jobid, setJobId] = useState();
 
   useEffect(() => {
     const id = localStorage.getItem("UserId");
     getMyJobs(id).then((resp) => {
-      console.log("Your Jobs are : ", resp.data);
-      setMyJobs(resp.data);
+      setIsSpinnerLoading(false);
+      if (resp.status == 200) {
+        if (resp.data.resultStatus == 200) {
+          setMyJobs(resp.data.data);
+        } else {
+          setMessage(resp.data.message);
+        }
+      }
     });
   }, []);
   let history = useHistory();
 
   return (
     <>
+      <div style={{ margin: "auto", width: "25%", marginTop: "100px" }}>
+        {/* <h5 className="mb-5">Loading ...</h5> */}
+        <TheTailSpinner isLoading={isSpinnerLoadig} width={160} height={160} />
+      </div>
       {myJobs ? (
         <div>
           <div>
@@ -186,7 +198,7 @@ const Jobs = (props) => {
         <>
           <h1>Loading ...</h1>
           <div style={{ margin: "auto", width: "300px" }}>
-            <TheTailSpinner isLoading={true} width={100} heigth={100} />
+            <h5>{message}</h5>
           </div>
         </>
       )}

@@ -11,17 +11,22 @@ const JobApplications = () => {
   const location = useLocation();
   const jobId = location.state.jobId;
   const [applications, setApplications] = useState();
+  const [isSpinnerLoadig, setIsSpinnerLoading] = useState(true);
+  const [message, setMessage] = useState("");
   const [users, setUsers] = useState();
   const [jobs, setJobs] = useState();
   const [isReadMore, setReadMore] = useState(true);
   useEffect(() => {
     getApplicantsForAJob(jobId).then((resp) => {
-      console.log("Response is  : ", resp);
-      console.log("Applications are  : ", resp.data.aplications);
-      console.log("Users are  : ", resp.data.users);
-      setApplications(resp.data.aplications);
-      setUsers(resp.data.users);
-      setJobs(resp.data.jobs);
+      // console.log("Response is  : ", resp);
+      setIsSpinnerLoading(false);
+      if (resp.status == 200) {
+        if (resp.data.resultStatus == 200) {
+          setApplications(resp.data.data);
+        } else {
+          setMessage(resp.data.message);
+        }
+      }
     });
   }, []);
 
@@ -53,63 +58,38 @@ const JobApplications = () => {
       </div>
       {applications ? (
         <>
-          <div style={{ margin: "auto", width: "70%" }}>
+          <div style={{ margin: "auto", width: "70%", marginBottom: "20px" }}>
             {applications?.map((application, key) => {
               return (
                 <>
                   <div key={key} className="job-box card mt-4">
                     <div className="p-4">
                       <Row className="align-items-center">
-                        <Col md={4}>
-                          {users
-                            ?.filter((u) => u.id == application.userId)
-                            .map((user) => {
-                              return (
-                                <>
-                                  {jobs
-                                    ?.filter((j) => j.id == application.jobId)
-                                    .map((job) => {
-                                      return (
-                                        <>
-                                          <h5>{job.jobTitle}</h5>
-                                          <span>
-                                            {users
-                                              ?.filter(
-                                                (u) =>
-                                                  u.id == application.userId
-                                              )
-                                              .map((user) => {
-                                                return (
-                                                  <>
-                                                    <p>
-                                                      Applicant :{" "}
-                                                      <Link
-                                                        to={{
-                                                          pathname:
-                                                            "/candidatedetails",
-                                                          state: {
-                                                            details: user,
-                                                          },
-                                                        }}
-                                                      >
-                                                        {user.firstName}{" "}
-                                                        {user.lastName}
-                                                      </Link>
-                                                    </p>
-                                                  </>
-                                                );
-                                              })}
-                                          </span>
-                                        </>
-                                      );
-                                    })}
-                                </>
-                              );
-                            })}
+                        <Col md={3}>
+                          <h5>{application.jobTitle}</h5>
+                          <span>
+                            <p>
+                              Applicant :{" "}
+                              {/* <Link
+                                to={{
+                                  pathname: "/candidatedetails",
+                                    state: {
+                                      details: user,
+                                    },
+                                }}
+                              > */}
+                              Demo Applicant
+                              {/* </Link> */}
+                            </p>
+                          </span>
                         </Col>
 
-                        <Col md={1}>{application.hourlyRate}$ /hours</Col>
+                        <Col md={2}>
+                          Hourly Rate : {application.hourlyRate}$ /hours
+                        </Col>
                         <Col md={5}>
+                          <h5 style={{ display: "inline-block" }}>Proposals</h5>{" "}
+                          <br />
                           <span id={key}>
                             {application.proposal.slice(0, 50)}
                           </span>
@@ -129,7 +109,11 @@ const JobApplications = () => {
                               )
                             }
                           >
-                            Show more
+                            {application.proposal.length < 50 ? (
+                              <></>
+                            ) : (
+                              <>Show more</>
+                            )}
                           </button>
                         </Col>
                         <Col md={2}>
@@ -139,12 +123,12 @@ const JobApplications = () => {
                               pathname: "/hiringpage",
                               state: {
                                 applicationdetails: application,
-                                userdetails: users?.filter(
-                                  (u) => u.id == application.userId
-                                ),
-                                jobdetails: jobs?.filter(
-                                  (j) => j.id == application.jobId
-                                ),
+                                // userdetails: users?.filter(
+                                //   (u) => u.id == application.userId
+                                // ),
+                                // jobdetails: jobs?.filter(
+                                //   (j) => j.id == application.jobId
+                                // ),
                               },
                             }}
                           >
@@ -163,7 +147,7 @@ const JobApplications = () => {
         <>
           <div style={{ margin: "auto", width: "300px" }}>
             <div style={{ margin: "100px 0 100px 0" }}>
-              <TheTailSpinner isLoading={true} width={100} heigth={100} />
+              <h6>{message}</h6>
             </div>
           </div>
         </>

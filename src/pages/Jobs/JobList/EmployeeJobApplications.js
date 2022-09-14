@@ -15,9 +15,9 @@ const EmployeeJobApplications = () => {
     const Id = localStorage.getItem("UserId");
     getEmployeeApplications(Id).then((resp) => {
       console.log("Employee Applications are : ", resp);
-      setUser(resp.data.user);
-      setApplications(resp.data.applications);
-      setJobs(resp.data.jobs);
+      //setUser(resp.data.user);
+      setApplications(resp.data.data);
+      //setJobs(resp.data.jobs);
     });
   }, []);
 
@@ -54,7 +54,15 @@ const EmployeeJobApplications = () => {
                     <div className="p-4">
                       <Row className="align-items-center">
                         <Col md={3}>
-                          {jobs
+                          <Link
+                            to={{
+                              pathname: "/jobdetails",
+                              // state: { jobdetail: job },
+                            }}
+                          >
+                            <h5>{application.jobTitle}</h5>
+                          </Link>
+                          {/* {jobs
                             ?.filter((j) => j.id == application.jobId)
                             .map((job) => {
                               return (
@@ -69,10 +77,14 @@ const EmployeeJobApplications = () => {
                                   </Link>
                                 </>
                               );
-                            })}
+                            })} */}
                         </Col>
                         <Col md={2}>
-                          {jobs
+                          <h5 style={{ display: "inline-block" }}>Type :</h5>
+                          <span style={{ display: "inline-block" }}>
+                            {application.jobType}
+                          </span>
+                          {/* {jobs
                             ?.filter((j) => j.id == application.jobId)
                             .map((job) => {
                               return (
@@ -85,23 +97,51 @@ const EmployeeJobApplications = () => {
                                   </span>{" "}
                                 </>
                               );
-                            })}
+                            })} */}
                         </Col>
                         <Col md={4}>
-                          {jobs
+                          <h5 style={{ display: "inline-block" }}>Proposals</h5>{" "}
+                          <br />
+                          <span id={key}>
+                            {application.proposal.slice(0, 50)}
+                          </span>
+                          <button
+                            id={`btn${key}`}
+                            style={{
+                              border: "none",
+                              backgroundColor: "white",
+                              color: "blueviolet",
+                            }}
+                            onClick={() =>
+                              toggleReadMore(
+                                key,
+                                application.proposal,
+                                isReadMore,
+                                `btn${key}`
+                              )
+                            }
+                          >
+                            {application.proposal.length < 50 ? (
+                              <></>
+                            ) : (
+                              <>Show more</>
+                            )}
+                          </button>
+                          {/* {jobs
                             ?.filter((j) => j.id == application.jobId)
                             .map((job) => {
                               return (
                                 <>
                                   <h5 style={{ display: "inline-block" }}>
-                                    Client Proposed Rate:
+                                    Hourly Rate:
                                   </h5>
                                   <span style={{ display: "inline-block" }}>
                                     {job.minRate} - {job.maxRate} $/h
+                                   
                                   </span>{" "}
                                 </>
                               );
-                            })}
+                            })} */}
                         </Col>
                         <Col md={3}>
                           <h5 style={{ display: "inline-block" }}>

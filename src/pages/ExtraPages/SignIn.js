@@ -44,55 +44,65 @@ const SignIn = () => {
           setIsLoading(false);
           successToast("Wrong Credentials");
         } else if (resp.data.type === "Employer") {
-          // resp.status == 200 &&
-          console.log("Employer Called");
           localStorage.setItem("email", resp.data.email);
-          localStorage.setItem("password", resp.data.password);
-          localStorage.setItem("UserId", resp.data.id);
+          localStorage.setItem("AccessToken", resp.data.accessToken);
+          localStorage.setItem("UserId", resp.data.userId);
           localStorage.setItem("Role", resp.data.type);
           localStorage.setItem("Home", "/myjobs");
-          localStorage.setItem("ApprovalStatus", resp.data.approvalStatus);
+          // localStorage.setItem("ApprovalStatus", resp.data.approvalStatus);
           setIsLoading(false);
 
-          if (resp.data.approvalStatus == "pending") {
-            history.push({
-              pathname: "/profilecompletionform",
-            });
-          } else if (resp.data.approvalStatus == "submitted") {
-            history.push({
-              pathname: "/profileunderreview",
-            });
-          } else {
+          setTimeout(() => {
             history.push({
               pathname: "/myjobs",
-              state: { home: "/myjobs" },
             });
-          }
+          }, 1000);
+
+          // if (resp.data.approvalStatus == "pending") {
+          //   history.push({
+          //     pathname: "/profilecompletionform",
+          //   });
+          // } else if (resp.data.approvalStatus == "submitted") {
+          //   history.push({
+          //     pathname: "/profileunderreview",
+          //   });
+          // } else {
+          //   history.push({
+          //     pathname: "/myjobs",
+          //     state: { home: "/myjobs" },
+          //   });
+          // }
         } else if (resp.data.type === "Employee") {
-          console.log("Employee Called");
           localStorage.setItem("email", resp.data.email);
-          localStorage.setItem("password", resp.data.password);
-          localStorage.setItem("UserId", resp.data.id);
+          localStorage.setItem("AccessToken", resp.data.accessToken);
+          localStorage.setItem("UserId", resp.data.userId);
           localStorage.setItem("Role", resp.data.type);
           localStorage.setItem("Home", "/joblist");
-          localStorage.setItem("ApprovalStatus", resp.data.approvalStatus);
+          // localStorage.setItem("ApprovalStatus", resp.data.approvalStatus);
           setIsLoading(false);
 
-          if (resp.data.approvalStatus == "pending") {
-            history.push({
-              pathname: "/profilecompletionform",
-            });
-          } else if (resp.data.approvalStatus == "submitted") {
-            history.push({
-              pathname: "/profileunderreview",
-            });
-          } else {
+          setTimeout(() => {
             history.push({
               pathname: "/joblist",
-              state: { home: "/joblist" },
             });
-          }
+          }, 1000);
+
+          // if (resp.data.approvalStatus == "pending") {
+          //   history.push({
+          //     pathname: "/profilecompletionform",
+          //   });
+          // } else if (resp.data.approvalStatus == "submitted") {
+          //   history.push({
+          //     pathname: "/profileunderreview",
+          //   });
+          // } else {
+          //   history.push({
+          //     pathname: "/joblist",
+          //     state: { home: "/joblist" },
+          //   });
+          // }
         }
+        // resp.status == 200 &&
       })
       .catch((error) => {
         setIsLoading(false);

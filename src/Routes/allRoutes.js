@@ -30,6 +30,10 @@ const JobsCategories = React.lazy(() =>
   import("../pages/Jobs/JobsCategories/JobsCategories")
 );
 
+const JobVacancyList = React.lazy(() =>
+  import("../pages/Jobs/JobList/JobVacancyList")
+);
+
 // Job Applications in EmployerJobs
 
 const JobApplications = React.lazy(() =>
@@ -135,6 +139,7 @@ const ProfileInReview = React.lazy(() =>
 );
 
 // JobForm Route
+
 const JobForm = React.lazy(() => import("../pages/Jobs/PostJobs/JobForm"));
 
 const userRoutes = [
@@ -177,6 +182,7 @@ const userRoutes = [
   { path: "/joblist2", component: JobList2 },
   { path: "/joblist", component: JobList },
   { path: "/myjobs", component: EmployerJobs },
+  { path: "/jobvacancylist", component: JobVacancyList },
 
   // JobApplications , See Job Applicants for a User
   { path: "/jobapplications", component: JobApplications },

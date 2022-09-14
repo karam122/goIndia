@@ -12,18 +12,14 @@ import { successToast } from "../../components/Toasts";
 const HiringPage = () => {
   const location = useLocation();
   const [details, setDetails] = useState(location.state?.applicationdetails);
-  const [jobdetails, setJobDetails] = useState(location.state?.jobdetails);
-  const [user, setUser] = useState(location.state?.userdetails);
   const UserId = localStorage.getItem("UserId");
-  const rate = jobdetails?.map((job) => {
-    return (job.maxRate + job.minRate) / 2;
-  });
+  const rate = details?.hourlyRate;
   const [hourlyRate, setHourlyRate] = useState(rate);
   const [isWeekly, setIsWeekly] = useState(
-    jobdetails?.employmentType == "Weekly" ? true : false
+    details?.jobType == "Weekly" ? true : false
   );
-  console.log("Employment Type is : ", jobdetails[0]?.employmentType);
-  const [type, setType] = useState(jobdetails[0]?.employmentType);
+  console.log("Employment Type is : ", details?.jobType);
+  const [type, setType] = useState(details?.jobType);
   const [hoursPerWeek, setHoursPerWeek] = useState(0);
   const [hours, setHours] = useState(0);
   const [response, setResponse] = useState();
@@ -32,18 +28,11 @@ const HiringPage = () => {
   const history = useHistory();
   console.log("Details are : ", details);
   const handleHire = () => {
-    //   console.log(`Date : ${date},
-    //    Employer : ${UserId},
-    //   Employee : ${details?.userId},
-    //  jobId:  ${details?.jobId},
-    //   Type : ${type},
-    //  Hourly Rate :  ${hourlyRate},
-    //  HourlyRate 2 :${hourlyRate}`);
     console.log(
       "api conssole---->",
       date,
       UserId,
-      details?.userId,
+      details?.applicantId,
       details?.jobId,
       type,
       parseInt(hourlyRate)
@@ -51,7 +40,7 @@ const HiringPage = () => {
     hireCandidate(
       date,
       UserId,
-      details?.userId,
+      details?.applicantId,
       details?.jobId,
       type,
       parseInt(hourlyRate)
@@ -78,12 +67,6 @@ const HiringPage = () => {
         }
       });
   };
-
-  if (user) {
-    console.log("User Details are :", user);
-    console.log("Application Details are :", details);
-    console.log("Job Details are : ", jobdetails);
-  }
 
   return (
     <>
@@ -119,44 +102,27 @@ const HiringPage = () => {
           <br />
         </div>
         <div style={{ margin: "auto", width: "40%" }}>
-          <span>
-            <h6 style={{ display: "inline-block" }}>
-              Candidate Name :{" "}
-              {user?.map((usr) => {
-                return (
-                  <>
-                    {usr.firstName}
-                    {""}
-                    {usr?.lastName}
-                  </>
-                );
-              })}
-            </h6>
-          </span>
+          {/* <span>
+            <h6 style={{ display: "inline-block" }}>Candidate Name :</h6>
+          </span> */}
           <br />
           <span>
-            <h6 style={{ display: "inline-block" }}>
-              Candidate Hourly Rate :{" "}
-            </h6>
+            <h6 style={{ display: "inline-block" }}>Hourly Rate : </h6>
             {details?.hourlyRate} $/h
           </span>
           <br />
           <span>
             <h6 style={{ display: "inline-block" }}>jobTitle : </h6>
-            {jobdetails?.map((job) => {
-              return <> {job.jobTitle}</>;
-            })}
+            {details?.jobTitle}
           </span>
           <br />
           <span>
             <h6 style={{ display: "inline-block" }}>jobType : </h6>
-            {jobdetails?.map((job) => {
-              return <> {job.employmentType}</>;
-            })}
+            {details?.jobType}
           </span>
           <br />
           <span>
-            {jobdetails?.map((job) => {
+            {/* {jobdetails?.map((job) => {
               return (
                 <>
                   {" "}
@@ -176,18 +142,18 @@ const HiringPage = () => {
                   )}
                 </>
               );
-            })}
+            })} */}
           </span>
           <br />
           <span>
-            <h6 style={{ display: "inline-block" }}>Your Proposed Rate : </h6>
+            {/* <h6 style={{ display: "inline-block" }}>Your Proposed Rate : </h6>
             {jobdetails?.map((job) => {
               return (
                 <>
                   {job.minRate} - {job.maxRate} $/h
                 </>
               );
-            })}
+            })} */}
           </span>
         </div>
         <br />
@@ -221,27 +187,23 @@ const HiringPage = () => {
                   : setIsWeekly(false);
               }}
             >
-              {jobdetails.map((job) => {
-                return (
+              <>
+                {details?.jobType == "Weekly" ? (
                   <>
-                    {job.employmentType == "Weekly" ? (
-                      <>
-                        <option value={job.employmentType} selected>
-                          {job.employmentType}
-                        </option>
-                        <option value="Fixed Hours">Fixed Hours</option>
-                      </>
-                    ) : (
-                      <>
-                        <option value={job.employmentType} selected>
-                          {job.employmentType}
-                        </option>
-                        <option value="Weekly">Weekly</option>
-                      </>
-                    )}
+                    <option value={details?.jobType} selected>
+                      {details?.jobType}
+                    </option>
+                    <option value="Fixed Hours">Fixed Hours</option>
                   </>
-                );
-              })}
+                ) : (
+                  <>
+                    <option value={details?.jobType} selected>
+                      {details?.jobType}
+                    </option>
+                    <option value="Weekly">Weekly</option>
+                  </>
+                )}
+              </>
             </Input>
           </FormGroup>
           {type == "Weekly" ? (

@@ -150,61 +150,56 @@ const NavBar = (props) => {
   const approvalStatus = localStorage.getItem("ApprovalStatus");
   return (
     <React.Fragment>
-      {approvalStatus == "approved" ? (
+      {/* {approvalStatus == "approved" ? (
+        <> */}
+      {Role == "Employer" ? (
         <>
-          {Role == "Employer" ? (
-            <>
-              <nav
-                className={
-                  "navbar navbar-expand-lg fixed-top sticky p-0 " + navClass
-                }
-                style={{ marginTop: "0px !important", color: "red" }}
-                id="navigation"
+          <nav
+            className={
+              "navbar navbar-expand-lg fixed-top sticky p-0 " + navClass
+            }
+            style={{ marginTop: "0px !important", color: "red" }}
+            id="navigation"
+          >
+            <Container fluid className="custom-container">
+              <Link
+                className="navbar-brand text-dark fw-bold me-auto"
+                to={localStorage.getItem("Home")}
               >
-                <Container fluid className="custom-container">
-                  <Link
-                    className="navbar-brand text-dark fw-bold me-auto"
-                    to={localStorage.getItem("Home")}
-                  >
-                    <img
-                      src={darkLogo}
-                      height="22"
-                      alt=""
-                      className="logo-dark"
-                    />
-                    <img
-                      src={lightLogo}
-                      height="22"
-                      alt=""
-                      className="logo-light"
-                    />
-                  </Link>
-                  <div>
-                    <NavbarToggler
-                      className="me-3"
-                      type="button"
-                      onClick={() => toggle()}
+                <img src={darkLogo} height="22" alt="" className="logo-dark" />
+                <img
+                  src={lightLogo}
+                  height="22"
+                  alt=""
+                  className="logo-light"
+                />
+              </Link>
+              <div>
+                <NavbarToggler
+                  className="me-3"
+                  type="button"
+                  onClick={() => toggle()}
+                >
+                  <i className="mdi mdi-menu"></i>
+                </NavbarToggler>
+              </div>
+              <Collapse
+                isOpen={isOpen}
+                className="navbar-collapse"
+                id="navbarCollapse"
+              >
+                <ul className="navbar-nav mx-auto navbar-center">
+                  <NavItem className="dropdown dropdown-hover">
+                    <NavLink
+                      to="/#"
+                      id="homedrop"
+                      className="arrow-none"
+                      // onClick={() => setHome(!home)}
                     >
-                      <i className="mdi mdi-menu"></i>
-                    </NavbarToggler>
-                  </div>
-                  <Collapse
-                    isOpen={isOpen}
-                    className="navbar-collapse"
-                    id="navbarCollapse"
-                  >
-                    <ul className="navbar-nav mx-auto navbar-center">
-                      <NavItem className="dropdown dropdown-hover">
-                        <NavLink
-                          to="/#"
-                          id="homedrop"
-                          className="arrow-none"
-                          // onClick={() => setHome(!home)}
-                        >
-                          <Link to={{ pathname: `${navigate}` }}>To Home</Link>
-                          {/* <div className="arrow-down"></div> */}
-                        </NavLink>
-                        {/* <ul
+                      <Link to={{ pathname: `${navigate}` }}>To Home</Link>
+                      {/* <div className="arrow-down"></div> */}
+                    </NavLink>
+                    {/* <ul
                   className={classname("dropdown-menu dropdown-menu-center", {
                     show: home,
                   })}
@@ -226,53 +221,50 @@ const NavBar = (props) => {
                     </Link>
                   </li>
                 </ul> */}
-                      </NavItem>
+                  </NavItem>
 
-                      <NavItem className="dropdown dropdown-hover">
-                        <NavLink
-                          to="/#"
-                          id="jobsdropdown"
-                          role="button"
-                          onClick={() => setCompany(!company)}
+                  <NavItem className="dropdown dropdown-hover">
+                    <NavLink
+                      to="/#"
+                      id="jobsdropdown"
+                      role="button"
+                      onClick={() => setCompany(!company)}
+                    >
+                      Jobs <div className="arrow-down"></div>
+                    </NavLink>
+                    <ul
+                      className={classname(
+                        "dropdown-menu dropdown-menu-center",
+                        {
+                          show: company,
+                        }
+                      )}
+                      aria-labelledby="jobsdropdown"
+                    >
+                      <li>
+                        <Link className="dropdown-item" to="/myjobs">
+                          My Jobs
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/employeroffers">
+                          All Contracts
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          className="dropdown-item"
+                          to="/ongoingEmployerContracts"
                         >
-                          Jobs <div className="arrow-down"></div>
-                        </NavLink>
-                        <ul
-                          className={classname(
-                            "dropdown-menu dropdown-menu-center",
-                            {
-                              show: company,
-                            }
-                          )}
-                          aria-labelledby="jobsdropdown"
-                        >
-                          <li>
-                            <Link className="dropdown-item" to="/myjobs">
-                              My Jobs
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              className="dropdown-item"
-                              to="/employeroffers"
-                            >
-                              All Contracts
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              className="dropdown-item"
-                              to="/ongoingEmployerContracts"
-                            >
-                              Ongoing Contracts
-                            </Link>
-                          </li>
-                          <li>
-                            <Link className="dropdown-item" to="/jobform">
-                              Post a Job
-                            </Link>
-                          </li>
-                          {/* <li>
+                          Ongoing Contracts
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/jobform">
+                          Post a Job
+                        </Link>
+                      </li>
+                      {/* <li>
                     <Link className="dropdown-item" to="/pricing">
                       Pricing
                     </Link>
@@ -285,367 +277,353 @@ const NavBar = (props) => {
                       Faqs
                     </Link>
                   </li> */}
-                        </ul>
-                      </NavItem>
+                    </ul>
+                  </NavItem>
 
-                      <NavItem className="dropdown dropdown-hover">
-                        <NavLink
-                          to="/#"
-                          id="productdropdown"
-                          role="button"
-                          data-bs-toggle="dropdown"
-                          onClick={() => setBlog(!blog)}
-                        >
-                          Hire
-                          <div className="arrow-down"></div>
-                        </NavLink>
-                        <ul
-                          className={classname(
-                            "dropdown-menu dropdown-menu-center",
-                            {
-                              show: blog,
-                            }
-                          )}
-                          aria-labelledby="productdropdown"
-                        >
-                          {/* <li>
+                  <NavItem className="dropdown dropdown-hover">
+                    <NavLink
+                      to="/#"
+                      id="productdropdown"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      onClick={() => setBlog(!blog)}
+                    >
+                      Hire
+                      <div className="arrow-down"></div>
+                    </NavLink>
+                    <ul
+                      className={classname(
+                        "dropdown-menu dropdown-menu-center",
+                        {
+                          show: blog,
+                        }
+                      )}
+                      aria-labelledby="productdropdown"
+                    >
+                      {/* <li>
                     <Link className="dropdown-item" to="/blog">
                       Hire
                     </Link>
                   </li> */}
-                          <li>
-                            <Link className="dropdown-item" to="/myjobs">
-                              Make an Offer
-                            </Link>
-                          </li>
-                        </ul>
-                      </NavItem>
-                      <NavItem className="dropdown dropdown-hover">
-                        <NavLink
-                          to="/#"
-                          id="productdropdown"
-                          role="button"
-                          data-bs-toggle="dropdown"
-                          onClick={() => setBlog(!blog)}
-                        >
-                          Talent
-                          <div className="arrow-down"></div>
-                        </NavLink>
-                        <ul
-                          className={classname(
-                            "dropdown-menu dropdown-menu-center",
-                            {
-                              show: blog,
-                            }
-                          )}
-                          aria-labelledby="productdropdown"
-                        >
-                          {/* <li>
+                      <li>
+                        <Link className="dropdown-item" to="/myjobs">
+                          Make an Offer
+                        </Link>
+                      </li>
+                    </ul>
+                  </NavItem>
+                  <NavItem className="dropdown dropdown-hover">
+                    <NavLink
+                      to="/#"
+                      id="productdropdown"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      onClick={() => setBlog(!blog)}
+                    >
+                      Talent
+                      <div className="arrow-down"></div>
+                    </NavLink>
+                    <ul
+                      className={classname(
+                        "dropdown-menu dropdown-menu-center",
+                        {
+                          show: blog,
+                        }
+                      )}
+                      aria-labelledby="productdropdown"
+                    >
+                      {/* <li>
                     <Link className="dropdown-item" to="/blog">
                       Hire
                     </Link>
                   </li> */}
-                          <li>
-                            <Link className="dropdown-item" to="/candidatelist">
-                              Discover
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              className="dropdown-item"
-                              to="/employeroffers"
-                            >
-                              Your Hires
-                            </Link>
-                          </li>
-                          {/* <li>
+                      <li>
+                        <Link className="dropdown-item" to="/candidatelist">
+                          Discover
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/employeroffers">
+                          Your Hires
+                        </Link>
+                      </li>
+                      {/* <li>
                     <Link className="dropdown-item" to="/blogmasonary">
                       Blog Masonry
                     </Link>
                   </li> */}
-                        </ul>
-                      </NavItem>
-                      <NavItem>
-                        <Link className="nav-link" to="/contact">
-                          Reports
-                        </Link>
-                      </NavItem>
-                      <NavItem>
-                        <Link className="nav-link" to="/contact">
-                          Messages
-                        </Link>
-                      </NavItem>
                     </ul>
-                  </Collapse>
+                  </NavItem>
+                  <NavItem>
+                    <Link className="nav-link" to="/contact">
+                      Reports
+                    </Link>
+                  </NavItem>
+                  <NavItem>
+                    <Link className="nav-link" to="/contact">
+                      Messages
+                    </Link>
+                  </NavItem>
+                </ul>
+              </Collapse>
 
-                  <ul className="header-menu list-inline d-flex align-items-center mb-0">
-                    <Dropdown
-                      isOpen={notification}
-                      toggle={dropDownnotification}
-                      className="list-inline-item  me-4"
-                    >
-                      <DropdownToggle
-                        href="#"
-                        className="header-item noti-icon position-relative"
-                        id="notification"
-                        type="button"
-                        tag="a"
-                      >
-                        <i className="mdi mdi-bell fs-22"></i>
-                        <div className="count position-absolute">3</div>
-                      </DropdownToggle>
-                      <DropdownMenu
-                        className="dropdown-menu-sm dropdown-menu-end p-0"
-                        aria-labelledby="notification"
-                        end
-                      >
-                        <div className="notification-header border-bottom bg-light">
-                          <h6 className="mb-1"> Notification </h6>
-                          <p className="text-muted fs-13 mb-0">
-                            You have 4 unread Notification
-                          </p>
-                        </div>
-                        <div className="notification-wrapper dropdown-scroll">
-                          <Link
-                            to="#"
-                            className="text-dark notification-item d-block active"
-                          >
-                            <div className="d-flex align-items-center">
-                              <div className="flex-shrink-0 me-3">
-                                <div className="avatar-xs bg-primary text-white rounded-circle text-center">
-                                  <i className="uil uil-user-check"></i>
-                                </div>
-                              </div>
-                              <div className="flex-grow-1">
-                                <h6 className="mt-0 mb-1 fs-14">
-                                  22 verified registrations
-                                </h6>
-                                <p className="mb-0 fs-12 text-muted">
-                                  <i className="mdi mdi-clock-outline"></i>{" "}
-                                  <span>3 min ago</span>
-                                </p>
-                              </div>
-                            </div>
-                          </Link>
-                          <Link
-                            to="#"
-                            className="text-dark notification-item d-block"
-                          >
-                            <div className="d-flex align-items-center">
-                              <div className="flex-shrink-0 me-3">
-                                <img
-                                  src={userImage2}
-                                  className="rounded-circle avatar-xs"
-                                  alt="user-pic"
-                                />
-                              </div>
-                              <div className="flex-grow-1">
-                                <h6 className="mt-0 mb-1 fs-14">
-                                  James Lemire
-                                </h6>
-                                <p className="text-muted fs-12 mb-0">
-                                  <i className="mdi mdi-clock-outline"></i>{" "}
-                                  <span>15 min ago</span>
-                                </p>
-                              </div>
-                            </div>
-                          </Link>
-                          <Link
-                            to="#"
-                            className="text-dark notification-item d-block"
-                          >
-                            <div className="d-flex align-items-center">
-                              <div className="flex-shrink-0 me-3">
-                                <img
-                                  src={jobImage4}
-                                  className="rounded-circle avatar-xs"
-                                  alt="user-pic"
-                                />
-                              </div>
-                              <div className="flex-grow-1">
-                                <h6 className="mt-0 mb-1 fs-14">
-                                  Applications has been approved
-                                </h6>
-                                <p className="text-muted mb-0 fs-12">
-                                  <i className="mdi mdi-clock-outline"></i>{" "}
-                                  <span>45 min ago</span>
-                                </p>
-                              </div>
-                            </div>
-                          </Link>
-                          <Link
-                            to="#"
-                            className="text-dark notification-item d-block"
-                          >
-                            <div className="d-flex align-items-center">
-                              <div className="flex-shrink-0 me-3">
-                                <img
-                                  src={userImage1}
-                                  className="rounded-circle avatar-xs"
-                                  alt="user-pic"
-                                />
-                              </div>
-                              <div className="flex-grow-1">
-                                <h6 className="mt-0 mb-1 fs-14">
-                                  Kevin Stewart
-                                </h6>
-                                <p className="text-muted mb-0 fs-12">
-                                  <i className="mdi mdi-clock-outline"></i>{" "}
-                                  <span>1 hour ago</span>
-                                </p>
-                              </div>
-                            </div>
-                          </Link>
-                          <Link
-                            to="#"
-                            className="text-dark notification-item d-block"
-                          >
-                            <div className="d-flex align-items-center">
-                              <div className="flex-shrink-0 me-3">
-                                <img
-                                  src={jobImage}
-                                  className="rounded-circle avatar-xs"
-                                  alt="user-pic"
-                                />
-                              </div>
-                              <div className="flex-grow-1">
-                                <h6 className="mt-0 mb-1 fs-15">
-                                  Creative Agency
-                                </h6>
-                                <p className="text-muted mb-0 fs-12">
-                                  <i className="mdi mdi-clock-outline"></i>{" "}
-                                  <span>2 hour ago</span>
-                                </p>
-                              </div>
-                            </div>
-                          </Link>
-                        </div>
-                        <div className="notification-footer border-top text-center">
-                          <Link className="primary-link fs-13" to="#">
-                            <i className="mdi mdi-arrow-right-circle me-1"></i>{" "}
-                            <span>View More..</span>
-                          </Link>
-                        </div>
-                      </DropdownMenu>
-                    </Dropdown>
-                    <Dropdown
-                      onClick={() => setUserProfile(!userProfile)}
-                      isOpen={userProfile}
-                      toggle={dropDownuserprofile}
-                      className="list-inline-item"
-                    >
-                      <DropdownToggle
+              <ul className="header-menu list-inline d-flex align-items-center mb-0">
+                <Dropdown
+                  isOpen={notification}
+                  toggle={dropDownnotification}
+                  className="list-inline-item  me-4"
+                >
+                  <DropdownToggle
+                    href="#"
+                    className="header-item noti-icon position-relative"
+                    id="notification"
+                    type="button"
+                    tag="a"
+                  >
+                    <i className="mdi mdi-bell fs-22"></i>
+                    <div className="count position-absolute">3</div>
+                  </DropdownToggle>
+                  <DropdownMenu
+                    className="dropdown-menu-sm dropdown-menu-end p-0"
+                    aria-labelledby="notification"
+                    end
+                  >
+                    <div className="notification-header border-bottom bg-light">
+                      <h6 className="mb-1"> Notification </h6>
+                      <p className="text-muted fs-13 mb-0">
+                        You have 4 unread Notification
+                      </p>
+                    </div>
+                    <div className="notification-wrapper dropdown-scroll">
+                      <Link
                         to="#"
-                        className="header-item"
-                        id="userdropdown"
-                        type="button"
-                        tag="a"
-                        aria-expanded="false"
+                        className="text-dark notification-item d-block active"
                       >
-                        <img
-                          src={profileImage}
-                          alt="mdo"
-                          width="35"
-                          height="35"
-                          className="rounded-circle me-1"
-                        />{" "}
-                        <span className="d-none d-md-inline-block fw-medium">
-                          {user?.firstName ? (
-                            <>Hi, {user?.firstName}</>
-                          ) : (
-                            <>{"Update Profile"}</>
-                          )}
-                        </span>
-                      </DropdownToggle>
-                      <DropdownMenu
-                        className="dropdown-menu-end"
-                        aria-labelledby="userdropdown"
-                        end
+                        <div className="d-flex align-items-center">
+                          <div className="flex-shrink-0 me-3">
+                            <div className="avatar-xs bg-primary text-white rounded-circle text-center">
+                              <i className="uil uil-user-check"></i>
+                            </div>
+                          </div>
+                          <div className="flex-grow-1">
+                            <h6 className="mt-0 mb-1 fs-14">
+                              22 verified registrations
+                            </h6>
+                            <p className="mb-0 fs-12 text-muted">
+                              <i className="mdi mdi-clock-outline"></i>{" "}
+                              <span>3 min ago</span>
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                      <Link
+                        to="#"
+                        className="text-dark notification-item d-block"
                       >
-                        <li>
-                          <Link className="dropdown-item" to="/managejobs">
-                            Manage Jobs
-                          </Link>
-                        </li>
-                        <li>
-                          <Link className="dropdown-item" to="/bookmarkjobs">
-                            Bookmarks Jobs
-                          </Link>
-                        </li>
-                        <li>
-                          <Link className="dropdown-item" to="/myprofile">
-                            My Profile
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            className="dropdown-item"
-                            onClick={handleLogout}
-                            to="/signin"
-                          >
-                            Logout
-                          </Link>
-                          {/* to="/signout" */}
-                        </li>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </ul>
-                </Container>
-              </nav>
-            </>
-          ) : (
-            <>
-              <nav
-                className={
-                  "navbar navbar-expand-lg fixed-top sticky p-0  aa" + navClass
-                }
-                style={{ marginTop: "24px", color: "red" }}
-                id="navigation"
+                        <div className="d-flex align-items-center">
+                          <div className="flex-shrink-0 me-3">
+                            <img
+                              src={userImage2}
+                              className="rounded-circle avatar-xs"
+                              alt="user-pic"
+                            />
+                          </div>
+                          <div className="flex-grow-1">
+                            <h6 className="mt-0 mb-1 fs-14">James Lemire</h6>
+                            <p className="text-muted fs-12 mb-0">
+                              <i className="mdi mdi-clock-outline"></i>{" "}
+                              <span>15 min ago</span>
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                      <Link
+                        to="#"
+                        className="text-dark notification-item d-block"
+                      >
+                        <div className="d-flex align-items-center">
+                          <div className="flex-shrink-0 me-3">
+                            <img
+                              src={jobImage4}
+                              className="rounded-circle avatar-xs"
+                              alt="user-pic"
+                            />
+                          </div>
+                          <div className="flex-grow-1">
+                            <h6 className="mt-0 mb-1 fs-14">
+                              Applications has been approved
+                            </h6>
+                            <p className="text-muted mb-0 fs-12">
+                              <i className="mdi mdi-clock-outline"></i>{" "}
+                              <span>45 min ago</span>
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                      <Link
+                        to="#"
+                        className="text-dark notification-item d-block"
+                      >
+                        <div className="d-flex align-items-center">
+                          <div className="flex-shrink-0 me-3">
+                            <img
+                              src={userImage1}
+                              className="rounded-circle avatar-xs"
+                              alt="user-pic"
+                            />
+                          </div>
+                          <div className="flex-grow-1">
+                            <h6 className="mt-0 mb-1 fs-14">Kevin Stewart</h6>
+                            <p className="text-muted mb-0 fs-12">
+                              <i className="mdi mdi-clock-outline"></i>{" "}
+                              <span>1 hour ago</span>
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                      <Link
+                        to="#"
+                        className="text-dark notification-item d-block"
+                      >
+                        <div className="d-flex align-items-center">
+                          <div className="flex-shrink-0 me-3">
+                            <img
+                              src={jobImage}
+                              className="rounded-circle avatar-xs"
+                              alt="user-pic"
+                            />
+                          </div>
+                          <div className="flex-grow-1">
+                            <h6 className="mt-0 mb-1 fs-15">Creative Agency</h6>
+                            <p className="text-muted mb-0 fs-12">
+                              <i className="mdi mdi-clock-outline"></i>{" "}
+                              <span>2 hour ago</span>
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                    </div>
+                    <div className="notification-footer border-top text-center">
+                      <Link className="primary-link fs-13" to="#">
+                        <i className="mdi mdi-arrow-right-circle me-1"></i>{" "}
+                        <span>View More..</span>
+                      </Link>
+                    </div>
+                  </DropdownMenu>
+                </Dropdown>
+                <Dropdown
+                  onClick={() => setUserProfile(!userProfile)}
+                  isOpen={userProfile}
+                  toggle={dropDownuserprofile}
+                  className="list-inline-item"
+                >
+                  <DropdownToggle
+                    to="#"
+                    className="header-item"
+                    id="userdropdown"
+                    type="button"
+                    tag="a"
+                    aria-expanded="false"
+                  >
+                    <img
+                      src={profileImage}
+                      alt="mdo"
+                      width="35"
+                      height="35"
+                      className="rounded-circle me-1"
+                    />{" "}
+                    <span className="d-none d-md-inline-block fw-medium">
+                      {user?.firstName ? (
+                        <>Hi, {user?.firstName}</>
+                      ) : (
+                        <>{"Update Profile"}</>
+                      )}
+                    </span>
+                  </DropdownToggle>
+                  <DropdownMenu
+                    className="dropdown-menu-end"
+                    aria-labelledby="userdropdown"
+                    end
+                  >
+                    <li>
+                      <Link className="dropdown-item" to="/managejobs">
+                        Manage Jobs
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/bookmarkjobs">
+                        Bookmarks Jobs
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/myprofile">
+                        My Profile
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        className="dropdown-item"
+                        onClick={handleLogout}
+                        to="/signin"
+                      >
+                        Logout
+                      </Link>
+                      {/* to="/signout" */}
+                    </li>
+                  </DropdownMenu>
+                </Dropdown>
+              </ul>
+            </Container>
+          </nav>
+        </>
+      ) : (
+        <>
+          <nav
+            className={
+              "navbar navbar-expand-lg fixed-top sticky p-0  aa" + navClass
+            }
+            style={{ marginTop: "24px", color: "red" }}
+            id="navigation"
+          >
+            <Container fluid className="custom-container">
+              <Link
+                className="navbar-brand text-dark fw-bold me-auto"
+                to={localStorage.getItem("Home")}
               >
-                <Container fluid className="custom-container">
-                  <Link
-                    className="navbar-brand text-dark fw-bold me-auto"
-                    to={localStorage.getItem("Home")}
-                  >
-                    <img
-                      src={darkLogo}
-                      height="22"
-                      alt=""
-                      className="logo-dark"
-                    />
-                    <img
-                      src={lightLogo}
-                      height="22"
-                      alt=""
-                      className="logo-light"
-                    />
-                  </Link>
-                  <div>
-                    <NavbarToggler
-                      className="me-3"
-                      type="button"
-                      onClick={() => toggle()}
+                <img src={darkLogo} height="22" alt="" className="logo-dark" />
+                <img
+                  src={lightLogo}
+                  height="22"
+                  alt=""
+                  className="logo-light"
+                />
+              </Link>
+              <div>
+                <NavbarToggler
+                  className="me-3"
+                  type="button"
+                  onClick={() => toggle()}
+                >
+                  <i className="mdi mdi-menu"></i>
+                </NavbarToggler>
+              </div>
+              <Collapse
+                isOpen={isOpen}
+                className="navbar-collapse"
+                id="navbarCollapse"
+              >
+                <ul className="navbar-nav mx-auto navbar-center">
+                  <NavItem className="dropdown dropdown-hover">
+                    <NavLink
+                      to="/#"
+                      id="homedrop"
+                      className="arrow-none"
+                      // onClick={() => setHome(!home)}
                     >
-                      <i className="mdi mdi-menu"></i>
-                    </NavbarToggler>
-                  </div>
-                  <Collapse
-                    isOpen={isOpen}
-                    className="navbar-collapse"
-                    id="navbarCollapse"
-                  >
-                    <ul className="navbar-nav mx-auto navbar-center">
-                      <NavItem className="dropdown dropdown-hover">
-                        <NavLink
-                          to="/#"
-                          id="homedrop"
-                          className="arrow-none"
-                          // onClick={() => setHome(!home)}
-                        >
-                          <Link to={{ pathname: `${navigate}` }}>To Home</Link>
-                          {/* <div className="arrow-down"></div> */}
-                        </NavLink>
-                        {/* <ul
+                      <Link to={{ pathname: `${navigate}` }}>To Home</Link>
+                      {/* <div className="arrow-down"></div> */}
+                    </NavLink>
+                    {/* <ul
                   className={classname("dropdown-menu dropdown-menu-center", {
                     show: home,
                   })}
@@ -667,56 +645,53 @@ const NavBar = (props) => {
                     </Link>
                   </li>
                 </ul> */}
-                      </NavItem>
+                  </NavItem>
 
-                      <NavItem className="dropdown dropdown-hover">
-                        <NavLink
-                          to="/#"
-                          id="jobsdropdown"
-                          role="button"
-                          onClick={() => setCompany(!company)}
+                  <NavItem className="dropdown dropdown-hover">
+                    <NavLink
+                      to="/#"
+                      id="jobsdropdown"
+                      role="button"
+                      onClick={() => setCompany(!company)}
+                    >
+                      Jobs <div className="arrow-down"></div>
+                    </NavLink>
+                    <ul
+                      className={classname(
+                        "dropdown-menu dropdown-menu-center",
+                        {
+                          show: company,
+                        }
+                      )}
+                      aria-labelledby="jobsdropdown"
+                    >
+                      <li>
+                        <Link className="dropdown-item" to="/joblist">
+                          All Jobs
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/employeeproposals">
+                          My Offers
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          className="dropdown-item"
+                          to="/ongoingemployeecontracts"
                         >
-                          Jobs <div className="arrow-down"></div>
-                        </NavLink>
-                        <ul
-                          className={classname(
-                            "dropdown-menu dropdown-menu-center",
-                            {
-                              show: company,
-                            }
-                          )}
-                          aria-labelledby="jobsdropdown"
+                          My Contracts
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          className="dropdown-item"
+                          to="/employeejobapplications"
                         >
-                          <li>
-                            <Link className="dropdown-item" to="/joblist">
-                              All Jobs
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              className="dropdown-item"
-                              to="/employeeproposals"
-                            >
-                              My Offers
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              className="dropdown-item"
-                              to="/ongoingemployeecontracts"
-                            >
-                              My Contracts
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              className="dropdown-item"
-                              to="/employeejobapplications"
-                            >
-                              My job Applications
-                            </Link>
-                          </li>
-                          {/* <li>
+                          My job Applications
+                        </Link>
+                      </li>
+                      {/* <li>
                     <Link className="dropdown-item" to="/pricing">
                       Pricing
                     </Link>
@@ -729,10 +704,10 @@ const NavBar = (props) => {
                       Faqs
                     </Link>
                   </li> */}
-                        </ul>
-                      </NavItem>
+                    </ul>
+                  </NavItem>
 
-                      {/* <NavItem className="dropdown dropdown-hover">
+                  {/* <NavItem className="dropdown dropdown-hover">
                     <NavLink
                       to="/#"
                       id="productdropdown"
@@ -764,7 +739,7 @@ const NavBar = (props) => {
                       </li>
                     </ul>
                   </NavItem> */}
-                      {/* <NavItem className="dropdown dropdown-hover">
+                  {/* <NavItem className="dropdown dropdown-hover">
                     <NavLink
                       to="/#"
                       id="productdropdown"
@@ -806,204 +781,198 @@ const NavBar = (props) => {
                   </li>
                     </ul>
                   </NavItem> */}
-                      <NavItem>
-                        <Link className="nav-link" to="/contact">
-                          Reports
-                        </Link>
-                      </NavItem>
-                      <NavItem>
-                        <Link className="nav-link" to="/contact">
-                          Messages
-                        </Link>
-                      </NavItem>
-                    </ul>
-                  </Collapse>
+                  <NavItem>
+                    <Link className="nav-link" to="/contact">
+                      Reports
+                    </Link>
+                  </NavItem>
+                  <NavItem>
+                    <Link className="nav-link" to="/contact">
+                      Messages
+                    </Link>
+                  </NavItem>
+                </ul>
+              </Collapse>
 
-                  <ul className="header-menu list-inline d-flex align-items-center mb-0">
-                    <Dropdown
-                      isOpen={notification}
-                      toggle={dropDownnotification}
-                      className="list-inline-item  me-4"
-                    >
-                      <DropdownToggle
-                        href="#"
-                        className="header-item noti-icon position-relative"
-                        id="notification"
-                        type="button"
-                        tag="a"
-                      >
-                        <i className="mdi mdi-bell fs-22"></i>
-                        <div className="count position-absolute">3</div>
-                      </DropdownToggle>
-                      <DropdownMenu
-                        className="dropdown-menu-sm dropdown-menu-end p-0"
-                        aria-labelledby="notification"
-                        end
-                      >
-                        <div className="notification-header border-bottom bg-light">
-                          <h6 className="mb-1"> Notification </h6>
-                          <p className="text-muted fs-13 mb-0">
-                            You have 4 unread Notification
-                          </p>
-                        </div>
-                        <div className="notification-wrapper dropdown-scroll">
-                          <Link
-                            to="#"
-                            className="text-dark notification-item d-block active"
-                          >
-                            <div className="d-flex align-items-center">
-                              <div className="flex-shrink-0 me-3">
-                                <div className="avatar-xs bg-primary text-white rounded-circle text-center">
-                                  <i className="uil uil-user-check"></i>
-                                </div>
-                              </div>
-                              <div className="flex-grow-1">
-                                <h6 className="mt-0 mb-1 fs-14">
-                                  22 verified registrations
-                                </h6>
-                                <p className="mb-0 fs-12 text-muted">
-                                  <i className="mdi mdi-clock-outline"></i>{" "}
-                                  <span>3 min ago</span>
-                                </p>
-                              </div>
-                            </div>
-                          </Link>
-                          <Link
-                            to="#"
-                            className="text-dark notification-item d-block"
-                          >
-                            <div className="d-flex align-items-center">
-                              <div className="flex-shrink-0 me-3">
-                                <img
-                                  src={userImage2}
-                                  className="rounded-circle avatar-xs"
-                                  alt="user-pic"
-                                />
-                              </div>
-                              <div className="flex-grow-1">
-                                <h6 className="mt-0 mb-1 fs-14">
-                                  James Lemire
-                                </h6>
-                                <p className="text-muted fs-12 mb-0">
-                                  <i className="mdi mdi-clock-outline"></i>{" "}
-                                  <span>15 min ago</span>
-                                </p>
-                              </div>
-                            </div>
-                          </Link>
-                          <Link
-                            to="#"
-                            className="text-dark notification-item d-block"
-                          >
-                            <div className="d-flex align-items-center">
-                              <div className="flex-shrink-0 me-3">
-                                <img
-                                  src={jobImage4}
-                                  className="rounded-circle avatar-xs"
-                                  alt="user-pic"
-                                />
-                              </div>
-                              <div className="flex-grow-1">
-                                <h6 className="mt-0 mb-1 fs-14">
-                                  Applications has been approved
-                                </h6>
-                                <p className="text-muted mb-0 fs-12">
-                                  <i className="mdi mdi-clock-outline"></i>{" "}
-                                  <span>45 min ago</span>
-                                </p>
-                              </div>
-                            </div>
-                          </Link>
-                          <Link
-                            to="#"
-                            className="text-dark notification-item d-block"
-                          >
-                            <div className="d-flex align-items-center">
-                              <div className="flex-shrink-0 me-3">
-                                <img
-                                  src={userImage1}
-                                  className="rounded-circle avatar-xs"
-                                  alt="user-pic"
-                                />
-                              </div>
-                              <div className="flex-grow-1">
-                                <h6 className="mt-0 mb-1 fs-14">
-                                  Kevin Stewart
-                                </h6>
-                                <p className="text-muted mb-0 fs-12">
-                                  <i className="mdi mdi-clock-outline"></i>{" "}
-                                  <span>1 hour ago</span>
-                                </p>
-                              </div>
-                            </div>
-                          </Link>
-                          <Link
-                            to="#"
-                            className="text-dark notification-item d-block"
-                          >
-                            <div className="d-flex align-items-center">
-                              <div className="flex-shrink-0 me-3">
-                                <img
-                                  src={jobImage}
-                                  className="rounded-circle avatar-xs"
-                                  alt="user-pic"
-                                />
-                              </div>
-                              <div className="flex-grow-1">
-                                <h6 className="mt-0 mb-1 fs-15">
-                                  Creative Agency
-                                </h6>
-                                <p className="text-muted mb-0 fs-12">
-                                  <i className="mdi mdi-clock-outline"></i>{" "}
-                                  <span>2 hour ago</span>
-                                </p>
-                              </div>
-                            </div>
-                          </Link>
-                        </div>
-                        <div className="notification-footer border-top text-center">
-                          <Link className="primary-link fs-13" to="#">
-                            <i className="mdi mdi-arrow-right-circle me-1"></i>{" "}
-                            <span>View More..</span>
-                          </Link>
-                        </div>
-                      </DropdownMenu>
-                    </Dropdown>
-                    <Dropdown
-                      onClick={() => setUserProfile(!userProfile)}
-                      isOpen={userProfile}
-                      toggle={dropDownuserprofile}
-                      className="list-inline-item"
-                    >
-                      <DropdownToggle
+              <ul className="header-menu list-inline d-flex align-items-center mb-0">
+                <Dropdown
+                  isOpen={notification}
+                  toggle={dropDownnotification}
+                  className="list-inline-item  me-4"
+                >
+                  <DropdownToggle
+                    href="#"
+                    className="header-item noti-icon position-relative"
+                    id="notification"
+                    type="button"
+                    tag="a"
+                  >
+                    <i className="mdi mdi-bell fs-22"></i>
+                    <div className="count position-absolute">3</div>
+                  </DropdownToggle>
+                  <DropdownMenu
+                    className="dropdown-menu-sm dropdown-menu-end p-0"
+                    aria-labelledby="notification"
+                    end
+                  >
+                    <div className="notification-header border-bottom bg-light">
+                      <h6 className="mb-1"> Notification </h6>
+                      <p className="text-muted fs-13 mb-0">
+                        You have 4 unread Notification
+                      </p>
+                    </div>
+                    <div className="notification-wrapper dropdown-scroll">
+                      <Link
                         to="#"
-                        className="header-item"
-                        id="userdropdown"
-                        type="button"
-                        tag="a"
-                        aria-expanded="false"
+                        className="text-dark notification-item d-block active"
                       >
-                        <img
-                          src={profileImage}
-                          alt="mdo"
-                          width="35"
-                          height="35"
-                          className="rounded-circle me-1"
-                        />{" "}
-                        <span className="d-none d-md-inline-block fw-medium">
-                          {user?.firstName ? (
-                            <>Hi, {user?.firstName}</>
-                          ) : (
-                            <>{"Update Profile"}</>
-                          )}
-                        </span>
-                      </DropdownToggle>
-                      <DropdownMenu
-                        className="dropdown-menu-end"
-                        aria-labelledby="userdropdown"
-                        end
+                        <div className="d-flex align-items-center">
+                          <div className="flex-shrink-0 me-3">
+                            <div className="avatar-xs bg-primary text-white rounded-circle text-center">
+                              <i className="uil uil-user-check"></i>
+                            </div>
+                          </div>
+                          <div className="flex-grow-1">
+                            <h6 className="mt-0 mb-1 fs-14">
+                              22 verified registrations
+                            </h6>
+                            <p className="mb-0 fs-12 text-muted">
+                              <i className="mdi mdi-clock-outline"></i>{" "}
+                              <span>3 min ago</span>
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                      <Link
+                        to="#"
+                        className="text-dark notification-item d-block"
                       >
-                        {/* <li>
+                        <div className="d-flex align-items-center">
+                          <div className="flex-shrink-0 me-3">
+                            <img
+                              src={userImage2}
+                              className="rounded-circle avatar-xs"
+                              alt="user-pic"
+                            />
+                          </div>
+                          <div className="flex-grow-1">
+                            <h6 className="mt-0 mb-1 fs-14">James Lemire</h6>
+                            <p className="text-muted fs-12 mb-0">
+                              <i className="mdi mdi-clock-outline"></i>{" "}
+                              <span>15 min ago</span>
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                      <Link
+                        to="#"
+                        className="text-dark notification-item d-block"
+                      >
+                        <div className="d-flex align-items-center">
+                          <div className="flex-shrink-0 me-3">
+                            <img
+                              src={jobImage4}
+                              className="rounded-circle avatar-xs"
+                              alt="user-pic"
+                            />
+                          </div>
+                          <div className="flex-grow-1">
+                            <h6 className="mt-0 mb-1 fs-14">
+                              Applications has been approved
+                            </h6>
+                            <p className="text-muted mb-0 fs-12">
+                              <i className="mdi mdi-clock-outline"></i>{" "}
+                              <span>45 min ago</span>
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                      <Link
+                        to="#"
+                        className="text-dark notification-item d-block"
+                      >
+                        <div className="d-flex align-items-center">
+                          <div className="flex-shrink-0 me-3">
+                            <img
+                              src={userImage1}
+                              className="rounded-circle avatar-xs"
+                              alt="user-pic"
+                            />
+                          </div>
+                          <div className="flex-grow-1">
+                            <h6 className="mt-0 mb-1 fs-14">Kevin Stewart</h6>
+                            <p className="text-muted mb-0 fs-12">
+                              <i className="mdi mdi-clock-outline"></i>{" "}
+                              <span>1 hour ago</span>
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                      <Link
+                        to="#"
+                        className="text-dark notification-item d-block"
+                      >
+                        <div className="d-flex align-items-center">
+                          <div className="flex-shrink-0 me-3">
+                            <img
+                              src={jobImage}
+                              className="rounded-circle avatar-xs"
+                              alt="user-pic"
+                            />
+                          </div>
+                          <div className="flex-grow-1">
+                            <h6 className="mt-0 mb-1 fs-15">Creative Agency</h6>
+                            <p className="text-muted mb-0 fs-12">
+                              <i className="mdi mdi-clock-outline"></i>{" "}
+                              <span>2 hour ago</span>
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                    </div>
+                    <div className="notification-footer border-top text-center">
+                      <Link className="primary-link fs-13" to="#">
+                        <i className="mdi mdi-arrow-right-circle me-1"></i>{" "}
+                        <span>View More..</span>
+                      </Link>
+                    </div>
+                  </DropdownMenu>
+                </Dropdown>
+                <Dropdown
+                  onClick={() => setUserProfile(!userProfile)}
+                  isOpen={userProfile}
+                  toggle={dropDownuserprofile}
+                  className="list-inline-item"
+                >
+                  <DropdownToggle
+                    to="#"
+                    className="header-item"
+                    id="userdropdown"
+                    type="button"
+                    tag="a"
+                    aria-expanded="false"
+                  >
+                    <img
+                      src={profileImage}
+                      alt="mdo"
+                      width="35"
+                      height="35"
+                      className="rounded-circle me-1"
+                    />{" "}
+                    <span className="d-none d-md-inline-block fw-medium">
+                      {user?.firstName ? (
+                        <>Hi, {user?.firstName}</>
+                      ) : (
+                        <>{"Update Profile"}</>
+                      )}
+                    </span>
+                  </DropdownToggle>
+                  <DropdownMenu
+                    className="dropdown-menu-end"
+                    aria-labelledby="userdropdown"
+                    end
+                  >
+                    {/* <li>
                       <Link className="dropdown-item" to="/managejobs">
                         Manage Jobs
                       </Link>
@@ -1013,32 +982,32 @@ const NavBar = (props) => {
                         Bookmarks Jobs
                       </Link>
                     </li> */}
-                        <li>
-                          <Link className="dropdown-item" to="/myprofile">
-                            My Profile
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            className="dropdown-item"
-                            onClick={handleLogout}
-                            to="/signin"
-                          >
-                            Logout
-                          </Link>
-                          {/* to="/signout" */}
-                        </li>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </ul>
-                </Container>
-              </nav>
-            </>
-          )}
+                    <li>
+                      <Link className="dropdown-item" to="/myprofile">
+                        My Profile
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        className="dropdown-item"
+                        onClick={handleLogout}
+                        to="/signin"
+                      >
+                        Logout
+                      </Link>
+                      {/* to="/signout" */}
+                    </li>
+                  </DropdownMenu>
+                </Dropdown>
+              </ul>
+            </Container>
+          </nav>
         </>
+      )}
+      {/* </>
       ) : (
         <></>
-      )}
+      )} */}
     </React.Fragment>
   );
 };
